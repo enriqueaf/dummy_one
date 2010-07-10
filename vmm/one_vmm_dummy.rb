@@ -26,17 +26,20 @@ else
 end
 
 $: << RUBY_LIB_LOCATION
-
+require "rubygems"
+require "nokogiri"
 require "VirtualMachineDriver"
 require "CommandManager"
 
 class DummyDriver < VirtualMachineDriver
     def initialize
         super(15,true)
+        @vmm_config = {}
     end
 
     def deploy(id, host, remote_dfile, not_used)
-        send_message(ACTION[:deploy],RESULT[:success],id,"dummy")
+        get_config(id,remote_dfile)
+        send_message(ACTION[:deploy],RESULT[:success],id,remote_dfile)
     end
 
     def shutdown(id, host, deploy_id, not_used)
@@ -48,6 +51,10 @@ class DummyDriver < VirtualMachineDriver
     end
 
     def save(id, host, deploy_id, file)
+        if @vmm_config[id].xpath('//SUSPEND')[0].content == 'sleep'
+            send_message('LOG','SLEEPING ...')
+            sleep(Integer(@vmm_config[id].xpath('//SUSPEND_SLEEP')[0].content))
+        end
         send_message(ACTION[:save],RESULT[:success],id)
     end
 
@@ -68,7 +75,17 @@ class DummyDriver < VirtualMachineDriver
         send_message(ACTION[:poll],RESULT[:success],id,monitor_info)
     end
 
+    def get_config(id, remote_dfile)
+        divided = remote_dfile.split('/images')
+        file = divided[0]+divided[1]
+        f = File.open(file)
+        config = Nokogiri::XML(f).xpath('//DUMMY')
+       # send_message(@vmm_config[id].xpath('//SUSPEND')[0].content )
+        @vmm_config[id] = config
+        
+
     end
+end
 
 dd = DummyDriver.new
 dd.start_driver
