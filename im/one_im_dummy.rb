@@ -27,7 +27,7 @@ else
     ETC_LOCATION=ONE_LOCATION+"/etc/"
 end
 
-CONFIG_FILE = ETC_LOCATION + "one_im_dummy.rb"
+CONFIG_FILE = ETC_LOCATION + "one_im_dummy.conf"
 
 $: << RUBY_LIB_LOCATION
 
