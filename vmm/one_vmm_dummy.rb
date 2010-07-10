@@ -51,9 +51,15 @@ class DummyDriver < VirtualMachineDriver
     end
 
     def save(id, host, deploy_id, file)
-        if @vmm_config[id].xpath('//SUSPEND')[0].content == 'sleep'
-            send_message('LOG','SLEEPING ...')
-            sleep(Integer(@vmm_config[id].xpath('//SUSPEND_SLEEP')[0].content))
+        send_message('LOG','At the moment no problem')
+        suspend = @vmm_config[id].xpath('//SUSPEND')
+        send_message('LOG','ummm',suspend.length)
+        if suspend.length >= 1:
+            send_message('A las barricadas, no pasaran')
+            if @vmm_config[id].xpath('//SUSPEND')[0].content == 'sleep'
+                send_message('LOG','SLEEPING',id,host)
+                sleep(Integer(@vmm_config[id].xpath('//SUSPEND_SLEEP')[0].content))
+            end
         end
         send_message(ACTION[:save],RESULT[:success],id)
     end
