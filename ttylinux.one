@@ -1,0 +1,33 @@
+NAME   = ttylinux
+CPU    = 1
+MEMORY = 64
+
+DISK   = [
+  source   = "/path/to/ttylinux.img",
+  target   = "hda",
+  readonly = "no" ]
+
+NIC    = [ NETWORK = "Small network" ]
+
+FEATURES=[ acpi="no" ]
+
+#CONTEXT=[
+#    hostname    = "$NAME",
+#    ip_public   = "PUBLIC_IP",
+#    files      = "/path/to/init.sh /path/to/id_dsa.pub",
+#    target      = "hdc",
+#    root_pubkey = "id_dsa.pub",
+#    username    = "opennebula",
+#    user_pubkey = "id_dsa.pub"
+#]
+
+DUMMY =[
+   suspend = "sleep",
+   suspend_sleep = "60"
+]
+
+HAIZEA = [
+  start        = "best_effort",
+  duration     = "01:00:00",
+  preemptible  = "yes"
+]
