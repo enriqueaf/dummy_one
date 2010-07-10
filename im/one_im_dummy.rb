@@ -27,8 +27,11 @@ else
     ETC_LOCATION=ONE_LOCATION+"/etc/"
 end
 
+CONFIG_FILE = ETC_LOCATION + "one_im_dummy.rb"
+
 $: << RUBY_LIB_LOCATION
 
+require 'yaml'
 require 'OpenNebulaDriver'
 require 'CommandManager'
 
@@ -42,7 +45,6 @@ class DummyInformationManager < OpenNebulaDriver
     #---------------------------------------------------------------------------
     def initialize(num)
         super(num, true)
-
         # register actions
         register_action(:MONITOR, method("action_monitor"))
     end
@@ -51,21 +53,33 @@ class DummyInformationManager < OpenNebulaDriver
     # Execute the sensor array in the remote host
     #---------------------------------------------------------------------------
     def action_monitor(number, host)
+        config = get_configuration(host)
         results =  "HYPERVISOR=dummy,"
         results << "NAME=#{host},"
 
-        results << "TOTALCPU=800,"
+        results << "TOTALCPU=#{config['CPU']},"
         results << "CPUSPEED=2.2GHz,"
 
         results << "TOTALMEMORY=16777216,"
         results << "USEDMEMORY=0,"
         results << "FREEMEMORY=16777216,"
 
-        results << "FREECPU=800,"
+        results << "FREECPU=#{config['FREECPU']},"
         results << "USEDCPU=0"
 
         send_message("MONITOR", RESULT[:success], number, results)
     end
+    
+    #-------------------------------------------------------------------------------
+    # Getting the config file
+    # Files are readed in RealTime, wich mean that you can modify files, whenever you want, but be carefull.
+    #-------------------------------------------------------------------------------
+
+    def get_configuration(host)
+        config = YAML::load(File.read(CONFIG_FILE))
+        return config[host]
+    end
+
 end
 
 #-------------------------------------------------------------------------------
