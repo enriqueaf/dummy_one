@@ -65,7 +65,7 @@ class DummyDriver < VirtualMachineDriver
     
     }
     def initialize
-        super(15,false)
+        super(15,true)
         @vmm_config = {}
         @file_config = YAML::load(File.read(CONFIG_FILE_LOCATION))
 
