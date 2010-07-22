@@ -135,8 +135,8 @@ class DummyDriver < VirtualMachineDriver
         wtd = get_config(id,ACTIONS_CONFIG[caction]).downcase
         send_message(ACTION[:log],'Checking what to do for this action', caction)
         if wtd == 'sleep' or wtd == 'fail'
-            if Integer(get_config(id,ACTIONS_CONFIG[caction]+'-WAIT')) > 0
-                sleep(Integer(get_config(id,ACTIONS_CONFIG[caction]+'-WAIT')))
+            if Integer(get_config(id,ACTIONS_CONFIG[caction]+'_WAIT')) > 0
+                sleep(Integer(get_config(id,ACTIONS_CONFIG[caction]+'_WAIT')))
             end
         end
         if wtd == 'normal' or wtd == 'sleep'
@@ -152,12 +152,12 @@ class DummyDriver < VirtualMachineDriver
         # Actual accpeted settings: Sleep, Fail, Normal or numerical 
         vmC = @vmm_config[id].xpath('//'+gaction.upcase)
         send_message(ACTION[:log],'VMC ',vmC)
+        vmF = @file_config['vmm'][gaction.upcase] unless @file_config['vmm'] == nil
+        
         if vmC.length > 0
             gettedC =  vmC[0].content
-        elsif @file_config['vmm']!=nil
-            if @file_config['vmm'][gaction.upcase] != nil
-                gettedC = @file_config['vmm'][gaction.upcase]
-            end
+        elsif vmF != nil
+            gettedC = vmF
         else
             gettedC = DEFAULT_CONFIG[gaction.upcase]
         end

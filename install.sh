@@ -15,7 +15,7 @@ chmod +x $ONE_LOCATION/lib/mads/one_vmm_dummy
 echo -n "."
 
 cp im/one_im_dummy $ONE_LOCATION/lib/mads
-cp im/one_im_dummy.conf $ONE_LOCATION/etc/
+cp im/one_im_dummy.rb $ONE_LOCATION/lib/mads
 chmod +x $ONE_LOCATION/lib/mads/one_im_dummy
 
 echo -n "."
