@@ -27,7 +27,7 @@ else
     ETC_LOCATION=ONE_LOCATION+"/etc/"
 end
 
-CONFIG_FILE = ETC_LOCATION + "one_im_dummy.conf"
+CONFIG_FILE = ETC_LOCATION + "one_dummy.conf"
 
 $: << RUBY_LIB_LOCATION
 
@@ -39,12 +39,15 @@ require 'CommandManager'
 # The SSH Information Manager Driver
 #-------------------------------------------------------------------------------
 class DummyInformationManager < OpenNebulaDriver
-
+    DEFAULT_CONFIG = {
+        'FREECPU' => 100,
+        'CPU' => 100
+    }
     #---------------------------------------------------------------------------
     # Init the driver
     #---------------------------------------------------------------------------
     def initialize(num)
-        super(num, true)
+        super(num, false)
         # register actions
         register_action(:MONITOR, method("action_monitor"))
     end
@@ -77,7 +80,11 @@ class DummyInformationManager < OpenNebulaDriver
 
     def get_configuration(host)
         config = YAML::load(File.read(CONFIG_FILE))
-        return config[host]
+        resul = config['im'][host]
+        if resul == nil
+            resul = DEFAULT_CONFIG
+        end
+        return resul
     end
 
 end
