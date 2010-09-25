@@ -4,8 +4,7 @@ How to install:
 
 How to user:
 ============
- The configuration file can be found at $ONE_LOCATION/etc/one_dummy.conf, by now
-it is only supported the self-containing mode.
+ The configuration file can be found at $ONE_LOCATION/etc/one_dummy.conf, by now it is only supported the self-containing mode.
 
  The structure of the configuration file is:
 ----------------------------------------------------
@@ -18,17 +17,12 @@ vmm:
 ------------------------------------------------------
 
 By now you have two different parameters that you can configurate for a host:
-  - CPU: It is how many cores the cpu have, the number must be given cores*100,
-ej: 100 for a host of one core, 500 for a host of five cores.
+  - CPU: It is how many cores the cpu have, the number must be given cores*100, ej: 100 for a host of one core, 500 for a host of five cores.
   - FREECPU: By now you can set how much cpu it is free. 
 
- All of those values are read in the fly, I mean, every time ONE ask for those
-parameters, this files is read and the response is made with the new parameters
-given.
+ All of those values are read in the fly, I mean, every time ONE ask for those parameters, this files is read and the response is made with the new parameters given.
 
- For the VM, here in the configuration file is set the default options because
-you can configurate the behaviour of every VM in it CONTEXT using the DUMMY
-flag, this will be explain later.
+ For the VM, here in the configuration file is set the default options because you can configurate the behaviour of every VM in it CONTEXT using the DUMMY flag, this will be explained later.
 
 The actions which can be configurate are:
  - SUSPEND
@@ -45,12 +39,7 @@ For every of those action you can set, three parameters:
 
 Configurating the DUMMY flag inside the CONTEXT of a VM:
 --------------------------------------------------------
- There is other option for configurating a VM, and not using the default
-parameters, which are explained before. The vm can be configurated inside its
-context, there is a file called ttylinux.one where you can find an example. The
-actions that can be configurate are the same as in the configuration file and
-the parameters also, the only thing that change is it is not action-WAIT if not
-action_sleep.
+ There is other option for configurating a VM, and not using the default parameters, which are explained before. The vm can be configurated inside its context, there is a file called ttylinux.one where you can find an example. The actions that can be configurate are the same as in the configuration file and the parameters also, the only thing that change is it is not action-WAIT if not action_sleep.
 
 Example:
 --------------------------------------------------------------
@@ -62,8 +51,7 @@ DUMMY =[
 
 TODO:
 ====
- - Change the behaviour of poll for responsing a fail status after the VM have
-been deployed during X seconds, or after been asked X times.
+ - Change the behaviour of poll for responsing a fail status after the VM have been deployed during X seconds, or after been asked X times.
 
 By Enrique Alvarez <enriqueaf@gmail.com>
    
